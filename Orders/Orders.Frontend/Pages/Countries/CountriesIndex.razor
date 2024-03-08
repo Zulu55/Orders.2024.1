@@ -22,7 +22,7 @@
                         <td>@country.Name</td>
                         <td>
                             <a href="/countries/edit/@country.Id" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger">Borrar</button>
+                            <button @onclick=@(() => DeleteAsycn(country)) class="btn btn-danger">Borrar</button>
                         </td>
                     </tr>
                 }
