@@ -8,5 +8,5 @@
 }
 else
 {
-    <StateForm @ref="stateForm" State="state" OnValidSubmit="SaveAsync" ReturnAction="Return" />
+    <FormWithName @ref="stateForm" Label="Estado/Departamento:" Model="state" OnValidSubmit="SaveAsync" ReturnAction="Return" />
 }

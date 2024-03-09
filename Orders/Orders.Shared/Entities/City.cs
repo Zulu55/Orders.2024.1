@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Orders.Shared.Interfaces;
 
 namespace Orders.Shared.Entities
 {
-    public class City
+    public class City : IEntityWithName
     {
         public int Id { get; set; }
 

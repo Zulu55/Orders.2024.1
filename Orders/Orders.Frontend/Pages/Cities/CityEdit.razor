@@ -8,5 +8,5 @@
 }
 else
 {
-    <CityForm @ref="cityForm" City="city" OnValidSubmit="SaveAsync" ReturnAction="Return" />
+    <FormWithName @ref="cityForm" Label="Ciudad:" Model="city" OnValidSubmit="SaveAsync" ReturnAction="Return" />
 }

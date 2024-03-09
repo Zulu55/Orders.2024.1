@@ -1,6 +1,7 @@
 ﻿using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.States
@@ -8,7 +9,7 @@ namespace Orders.Frontend.Pages.States
     public partial class StateCreate
     {
         private State state = new();
-        private StateForm? stateForm;
+        private FormWithName<State>? stateForm;
 
         [Parameter] public int CountryId { get; set; }
         [Inject] private IRepository Repository { get; set; } = null!;

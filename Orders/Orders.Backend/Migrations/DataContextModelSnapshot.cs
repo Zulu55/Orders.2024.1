@@ -39,7 +39,7 @@ namespace Orders.Backend.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.City", b =>
@@ -63,7 +63,7 @@ namespace Orders.Backend.Migrations
                     b.HasIndex("StateId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.Country", b =>
@@ -84,7 +84,7 @@ namespace Orders.Backend.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.State", b =>
@@ -108,7 +108,7 @@ namespace Orders.Backend.Migrations
                     b.HasIndex("CountryId", "Name")
                         .IsUnique();
 
-                    b.ToTable("States");
+                    b.ToTable("States", (string)null);
                 });
 
             modelBuilder.Entity("Orders.Shared.Entities.City", b =>

@@ -1,15 +1,16 @@
-﻿using CurrieTechnologies.Razor.SweetAlert2;
+﻿using System.Net;
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
-using System.Net;
 
 namespace Orders.Frontend.Pages.Cities
 {
     public partial class CityEdit
     {
         private City? city;
-        private CityForm? cityForm;
+        private FormWithName<City>? cityForm;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;

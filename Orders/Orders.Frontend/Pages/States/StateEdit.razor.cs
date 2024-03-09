@@ -2,6 +2,7 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.States
@@ -9,7 +10,7 @@ namespace Orders.Frontend.Pages.States
     public partial class StateEdit
     {
         private State? state;
-        private StateForm? stateForm;
+        private FormWithName<State>? stateForm;
 
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
