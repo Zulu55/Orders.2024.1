@@ -15,6 +15,8 @@ namespace Orders.Backend.UnitsOfWork.Implementations
             _countriesRepository = countriesRepository;
         }
 
+        public async Task<IEnumerable<Country>> GetComboAsync() => await _countriesRepository.GetComboAsync();
+        
         public override async Task<ActionResponse<IEnumerable<Country>>> GetAsync() => await _countriesRepository.GetAsync();
 
         public override async Task<ActionResponse<IEnumerable<Country>>> GetAsync(PaginationDTO pagination) => await _countriesRepository.GetAsync(pagination);
