@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Orders.Frontend.Pages.Countries;
 using Orders.Frontend.Repositories;
+using Orders.Frontend.Shared;
 using Orders.Shared.Entities;
 
 namespace Orders.Frontend.Pages.Categories
@@ -9,7 +10,7 @@ namespace Orders.Frontend.Pages.Categories
     public partial class CategoryCreate
     {
         private Category category = new();
-        private CategoryForm? categoryForm;
+        private FormWithName<Category>? categoryForm;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
