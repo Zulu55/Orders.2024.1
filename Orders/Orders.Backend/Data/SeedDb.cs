@@ -28,6 +28,7 @@ namespace Orders.Backend.Data
                 _context.Categories.Add(new Category { Name = "Hogar" });
                 _context.Categories.Add(new Category { Name = "Cosmeticos" });
                 _context.Categories.Add(new Category { Name = "Licores" });
+                _context.Categories.Add(new Category { Name = "Calzado" });
                 await _context.SaveChangesAsync();
             }
         }
@@ -50,6 +51,7 @@ namespace Orders.Backend.Data
                                 new() { Name = "Envigado" },
                                 new() { Name = "Bello" },
                                 new() { Name = "Rionegro" },
+                                new() { Name = "Marinilla" },
                             ]
                         },
                         new State()
