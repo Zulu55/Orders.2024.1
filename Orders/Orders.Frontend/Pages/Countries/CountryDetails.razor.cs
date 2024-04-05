@@ -18,6 +18,8 @@ namespace Orders.Frontend.Pages.Countries
         [Inject] private IRepository Repository { get; set; } = null!;
 
         [Parameter] public int CountryId { get; set; }
+        [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
+        [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
@@ -26,6 +28,11 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task SelectedPageAsync(int page)
         {
+            if (!string.IsNullOrWhiteSpace(Page))
+            {
+                page = Convert.ToInt32(Page);
+            }
+
             currentPage = page;
             await LoadAsync(page);
         }
@@ -45,7 +52,13 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task LoadPagesAsync()
         {
-            var responseHttp = await Repository.GetAsync<int>($"api/states/totalPages?id={CountryId}");
+            var url = $"api/states/totalPages?id={CountryId}";
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                url += $"&filter={Filter}";
+            }
+
+            var responseHttp = await Repository.GetAsync<int>(url);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -57,7 +70,13 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task<bool> LoadStatesAsync(int page)
         {
-            var responseHttp = await Repository.GetAsync<List<State>>($"api/states?id={CountryId}&page={page}");
+            var url = $"api/states?id={CountryId}&page={page}";
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                url += $"&filter={Filter}";
+            }
+
+            var responseHttp = await Repository.GetAsync<List<State>>(url);
             if (responseHttp.Error)
             {
                 var message = await responseHttp.GetErrorMessageAsync();
@@ -66,6 +85,19 @@ namespace Orders.Frontend.Pages.Countries
             }
             states = responseHttp.Response;
             return true;
+        }
+
+        private async Task CleanFilterAsync()
+        {
+            Filter = string.Empty;
+            await ApplyFilterAsync();
+        }
+
+        private async Task ApplyFilterAsync()
+        {
+            int page = 1;
+            await LoadAsync(page);
+            await SelectedPageAsync(page);
         }
 
         private async Task<bool> LoadCountryAsync()
