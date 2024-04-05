@@ -8,27 +8,25 @@ using Orders.Shared.Responses;
 
 namespace Orders.Backend.Repositories.Implementations
 {
-    public class CitiesRepository : GenericRepository<City>, ICitiesRepository
+    public class CategoriesRepository : GenericRepository<Category>, ICategoriesRepository
     {
         private readonly DataContext _context;
 
-        public CitiesRepository(DataContext context) : base(context)
+        public CategoriesRepository(DataContext context) : base(context)
         {
             _context = context;
         }
 
-        public override async Task<ActionResponse<IEnumerable<City>>> GetAsync(PaginationDTO pagination)
+        public override async Task<ActionResponse<IEnumerable<Category>>> GetAsync(PaginationDTO pagination)
         {
-            var queryable = _context.Cities
-                .Where(x => x.State!.Id == pagination.Id)
-                .AsQueryable();
+            var queryable = _context.Categories.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
                 queryable = queryable.Where(x => x.Name.ToLower().Contains(pagination.Filter.ToLower()));
             }
 
-            return new ActionResponse<IEnumerable<City>>
+            return new ActionResponse<IEnumerable<Category>>
             {
                 WasSuccess = true,
                 Result = await queryable
@@ -40,9 +38,7 @@ namespace Orders.Backend.Repositories.Implementations
 
         public override async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination)
         {
-            var queryable = _context.Cities
-                .Where(x => x.State!.Id == pagination.Id)
-                .AsQueryable();
+            var queryable = _context.Categories.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(pagination.Filter))
             {
