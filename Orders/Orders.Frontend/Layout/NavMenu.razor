@@ -14,16 +14,22 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Inicio
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/categories">
-                <span class="bi bi-list-stars-fill-nav-menu" aria-hidden="true"></span> Categorias
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/countries">
-                <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span> Paises
-            </NavLink>
-        </div>
+
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/categories">
+                        <span class="bi bi-list-stars-fill-nav-menu" aria-hidden="true"></span> Categorias
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="/countries">
+                        <span class="bi bi-globe-americas-fill-nav-menu" aria-hidden="true"></span> Paises
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+
     </nav>
 </div>
 
