@@ -57,6 +57,7 @@ namespace Orders.Backend.Repositories.Implementations
             }
             catch (DbUpdateException)
             {
+                //TODO: Improve error handling
                 return DbUpdateExceptionActionResponse();
             }
             catch (Exception exception)
@@ -138,6 +139,7 @@ namespace Orders.Backend.Repositories.Implementations
             }
             catch (DbUpdateException)
             {
+                //TODO: Improve error handling
                 return DbUpdateExceptionActionResponse();
             }
             catch (Exception exception)
