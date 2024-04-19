@@ -17,6 +17,13 @@ namespace Orders.Backend.Repositories.Implementations
             _context = context;
         }
 
+        public async Task<IEnumerable<Category>> GetComboAsync()
+        {
+            return await _context.Categories
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+        }
+
         public override async Task<ActionResponse<IEnumerable<Category>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.Categories.AsQueryable();
