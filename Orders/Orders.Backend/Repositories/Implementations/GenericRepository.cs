@@ -55,10 +55,21 @@ namespace Orders.Backend.Repositories.Implementations
                     Result = entity
                 };
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                //TODO: Improve error handling
-                return DbUpdateExceptionActionResponse();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return DbUpdateExceptionActionResponse();
+                    }
+                }
+
+                return new ActionResponse<T>
+                {
+                    WasSuccess = false,
+                    Message = ex.Message
+                };
             }
             catch (Exception exception)
             {
@@ -137,10 +148,21 @@ namespace Orders.Backend.Repositories.Implementations
                     Result = entity
                 };
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
-                //TODO: Improve error handling
-                return DbUpdateExceptionActionResponse();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException!.Message.Contains("duplicate"))
+                    {
+                        return DbUpdateExceptionActionResponse();
+                    }
+                }
+
+                return new ActionResponse<T>
+                {
+                    WasSuccess = false,
+                    Message = ex.Message
+                };
             }
             catch (Exception exception)
             {
