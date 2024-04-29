@@ -28,6 +28,13 @@ namespace Orders.Frontend.Pages.States
             await LoadAsync();
         }
 
+        private async Task FilterCallBack(string filter)
+        {
+            Filter = filter;
+            await ApplyFilterAsync();
+            StateHasChanged();
+        }
+
         private async Task SelectedPageAsync(int page)
         {
             if (!string.IsNullOrWhiteSpace(Page))
@@ -88,12 +95,6 @@ namespace Orders.Frontend.Pages.States
             cities = responseHttp.Response;
             return true;
         }
-
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
-         }
 
         private async Task ApplyFilterAsync()
         {

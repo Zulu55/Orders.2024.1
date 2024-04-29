@@ -21,6 +21,13 @@ namespace Orders.Frontend.Pages.Countries
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
 
 
+        private async Task FilterCallBack(string filter)
+        {
+            Filter = filter;
+            await ApplyFilterAsync();
+            StateHasChanged();
+        }
+
         public List<Country>? Countries { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -83,12 +90,6 @@ namespace Orders.Frontend.Pages.Countries
                 return;
             }
             totalPages = responseHttp.Response;
-        }
-
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
         }
 
         private async Task ApplyFilterAsync()
