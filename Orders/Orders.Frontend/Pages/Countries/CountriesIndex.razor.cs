@@ -19,7 +19,14 @@ namespace Orders.Frontend.Pages.Countries
 
         [Parameter, SupplyParameterFromQuery] public string Page { get; set; } = string.Empty;
         [Parameter, SupplyParameterFromQuery] public string Filter { get; set; } = string.Empty;
+        [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 10;
 
+        public List<Country>? Countries { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await LoadAsync();
+        }
 
         private async Task FilterCallBack(string filter)
         {
@@ -28,11 +35,12 @@ namespace Orders.Frontend.Pages.Countries
             StateHasChanged();
         }
 
-        public List<Country>? Countries { get; set; }
-
-        protected override async Task OnInitializedAsync()
+        private async Task SelectedRecordsNumberAsync(int recordsnumber)
         {
-            await LoadAsync();
+            RecordsNumber = recordsnumber;
+            int page = 1;
+            await LoadAsync(page);
+            await SelectedPageAsync(page);
         }
 
         private async Task SelectedPageAsync(int page)
@@ -57,7 +65,8 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task<bool> LoadListAsync(int page)
         {
-            var url = $"api/countries?page={page}";
+            ValidateRecordsNumber(RecordsNumber);
+            var url = $"api/countries?page={page}&recordsnumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"&filter={Filter}";
@@ -76,10 +85,11 @@ namespace Orders.Frontend.Pages.Countries
 
         private async Task LoadPagesAsync()
         {
-            var url = "api/countries/totalPages";
+            ValidateRecordsNumber(RecordsNumber);
+            var url = $"api/countries/totalPages?recordsnumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
-                url += $"?filter={Filter}";
+                url += $"&filter={Filter}";
             }
 
             var responseHttp = await Repository.GetAsync<int>(url);
@@ -90,6 +100,14 @@ namespace Orders.Frontend.Pages.Countries
                 return;
             }
             totalPages = responseHttp.Response;
+        }
+
+        private void ValidateRecordsNumber(int recordsnumber)
+        {
+            if (recordsnumber == 0)
+            {
+                RecordsNumber = 10;
+            }
         }
 
         private async Task ApplyFilterAsync()

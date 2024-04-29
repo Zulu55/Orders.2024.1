@@ -8,5 +8,13 @@
                 <a class="page-link">@link.Text</a>
             </li>
         }
+        <li>
+            <select class="form-select custom-select" @onchange="InternalRecordsNumberSelected">
+                @foreach (var option in options)
+                {
+                    <option value="@option.Value">@option.Name</option>
+                }
+            </select>
+        </li>
     </ul>
 </nav>
