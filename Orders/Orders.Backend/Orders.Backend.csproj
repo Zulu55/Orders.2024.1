@@ -24,4 +24,10 @@
     <ProjectReference Include="..\Orders.Shared\Orders.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\CountriesStatesCities.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.Entities;
 using Orders.Shared.Enums;
@@ -19,10 +20,20 @@ namespace Orders.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
+            await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCatregoriesAsync();
             await CheckRolesAsync();
             await CheckUserAsync("1010", "Juan", "Zuluaga", "zulu@yopmail.com", "322 311 4620", "Calle Luna Calle Sol", UserType.Admin);
+        }
+
+        private async Task CheckCountriesFullAsync()
+        {
+            if (!_context.Countries.Any())
+            {
+                var countriesStatesCitiesSQLScript = File.ReadAllText("Data\\CountriesStatesCities.sql");
+                await _context.Database.ExecuteSqlRawAsync(countriesStatesCitiesSQLScript);
+            }
         }
 
         private async Task CheckRolesAsync()
@@ -145,9 +156,9 @@ namespace Orders.Backend.Data
                         },
                     ]
                 });
-            }
 
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
