@@ -1,4 +1,5 @@
 using System.Net;
+using Blazored.Modal.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
@@ -22,6 +23,7 @@ namespace Orders.Frontend.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
+        [CascadingParameter] IModalService Modal { get; set; } = default!;
 
         protected override async Task OnInitializedAsync()
         {
@@ -35,6 +37,11 @@ namespace Orders.Frontend.Pages.Auth
                 imageUrl = user.Photo;
                 user.Photo = null;
             }
+        }
+
+        private void ShowModal()
+        {
+            Modal.Show<ChangePassword>();
         }
 
         private async Task LoadUserAsyc()
