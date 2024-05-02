@@ -19,6 +19,47 @@ namespace Orders.Backend.Repositories.Implementations
             _fileStorage = fileStorage;
         }
 
+        public override async Task<ActionResponse<Product>> DeleteAsync(int id)
+        {
+            var product = await _context.Products
+                .Include(x => x.ProductCategories)
+                .Include(x => x.ProductImages)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (product == null)
+            {
+                return new ActionResponse<Product>
+                {
+                    WasSuccess = false,
+                    Message = "Producto no encontrado"
+                };
+            }
+
+            foreach (var productImage in product.ProductImages!)
+            {
+                await _fileStorage.RemoveFileAsync(productImage.Image, "products");
+            }
+
+            try
+            {
+                _context.ProductCategories.RemoveRange(product.ProductCategories!);
+                _context.ProductImages.RemoveRange(product.ProductImages!);
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                return new ActionResponse<Product>
+                {
+                    WasSuccess = true,
+                };
+            }
+            catch
+            {
+                return new ActionResponse<Product>
+                {
+                    WasSuccess = false,
+                    Message = "No se puede borrar el producto, porque tiene registros relacionados"
+                };
+            }
+        }
+
         public async Task<ActionResponse<ImageDTO>> AddImageAsync(ImageDTO imageDTO)
         {
             var product = await _context.Products
