@@ -96,7 +96,7 @@ namespace Orders.Frontend.Pages.Products
             var url = $"api/products/totalPages?recordsnumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
-                url += $"?filter={Filter}";
+                url += $"&filter={Filter}";
             }
 
             var response = await Repository.GetAsync<int>(url);
@@ -141,12 +141,6 @@ namespace Orders.Frontend.Pages.Products
             }
 
             await LoadAsync(1);
-        }
-
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
         }
 
         private async Task ApplyFilterAsync()
