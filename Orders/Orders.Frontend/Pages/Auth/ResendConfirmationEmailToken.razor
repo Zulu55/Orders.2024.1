@@ -1,0 +1,30 @@
+﻿@page "/ResendToken"
+
+@if (loading)
+{
+    <Loading />
+}
+<div class="row">
+    <div class="col-6">
+        <EditForm Model="emailDTO" OnValidSubmit="ResendConfirmationEmailTokenAsync">
+            <DataAnnotationsValidator />
+            <div class="card">
+                <div class="card-header">
+                    <span>
+                        <i class="bi bi-key" /> Reenviar correo de confirmación de contraseña
+                        <button class="btn btn-sm btn-primary float-end mx-2" type="submit"><i class="bi bi-floppy" /> Reenviar</button>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label>Email:</label>
+                        <div>
+                            <InputText class="form-control" @bind-Value="@emailDTO.Email" />
+                            <ValidationMessage For="@(() => emailDTO.Email)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
