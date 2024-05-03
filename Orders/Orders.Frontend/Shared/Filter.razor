@@ -1,0 +1,5 @@
+﻿﻿<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+    <input style="width:400px;" type="text" class="form-control" placeholder=@PlaceHolder @bind-value="TextToFilter">
+    <button type="button" class="btn btn-outline-primary mx-1" @onclick="ApplyFilterAsync"><i class="bi bi-funnel" /> Filtrar</button>
+    <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync"><i class="bi bi-x-circle" /> Limpiar</button>
+</div>

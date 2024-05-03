@@ -8,18 +8,9 @@
         </span>
     </div>
     <div class="card-body">
+        <Filter PlaceHolder="Buscar categoría..." Callback=@FilterCallBack />
         <GenericList MyList="Categories">
             <Body>
-                <div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
-                    <div>
-                        <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar categoría..." @bind-value="Filter" />
-                    </div>
-                    <div class="mx-1">
-                        <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync"><i class="bi bi-funnel" /> Filtrar</button>
-                        <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync"><i class="bi bi-x-circle" /> Limpiar</button>
-                    </div>
-                </div>
-
                 <Pagination CurrentPage="currentPage"
                             TotalPages="totalPages"
                             SelectedPage="SelectedPageAsync" />
