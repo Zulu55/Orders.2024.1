@@ -2,11 +2,19 @@
     <ul class="pagination">
         @foreach (var link in links)
         {
-            <li @onclick=@(() => InternalSelectedPage(link)) 
+            <li @onclick=@(() => InternalSelectedPage(link))
                 style="cursor: pointer"
                 class="page-item @(link.Enable ? null : "disabled") @(link.Enable ? "active" : null)">
                 <a class="page-link">@link.Text</a>
             </li>
         }
+        <li class="mx-2">
+            <select class="form-select custom-select" @onchange="InternalRecordsNumberSelected">
+                @foreach (var option in options)
+                {
+                    <option value="@option.Value">@option.Name</option>
+                }
+            </select>
+        </li>
     </ul>
 </nav>
