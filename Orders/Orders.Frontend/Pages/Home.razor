@@ -6,7 +6,17 @@
 }
 else
 {
-    <Filter PlaceHolder="Buscar producto..." Callback=@FilterCallBack />
+    <div class="d-flex align-items-center justify-content-between">
+        <Filter PlaceHolder="Buscar producto..." Callback=@FilterCallBack />
+        <AuthorizeView>
+            <Authorized>
+                @if (counter > 0)
+                {
+                    <a href="/Cart/ShowCart" class="btn btn-primary"><i class="bi bi-cart-fill" /> Ver Carro de Compras (@counter)</a>
+                }
+            </Authorized>
+        </AuthorizeView>
+    </div>
 
     <Pagination CurrentPage="currentPage"
                 TotalPages="totalPages"
@@ -28,8 +38,8 @@ else
                         <h5 class="text-muted">@($"{product.Price:C2}")</h5>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="/products/details/@product.Id" class="btn btn-sm btn-secondary"><i class="oi oi-info" /> Detalles</a>
-                        <button class="btn btn-sm btn-primary" @onclick=@(() => AddToCartAsync(product.Id))><i class="oi oi-plus" /> Agregar al Carro</button>
+                        <a href="/products/details/@product.Id" class="btn btn-sm btn-secondary"><i class="bi bi-info-circle" /> Detalles</a>
+                        <button class="btn btn-sm btn-primary" @onclick=@(() => AddToCartAsync(product.Id))><i class="bi bi-cart-plus" /> Agregar al Carro</button>
                     </div>
                 </div>
             </div>
