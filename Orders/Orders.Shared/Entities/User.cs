@@ -42,5 +42,7 @@ namespace Orders.Shared.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public ICollection<TemporalOrder>? TemporalOrders { get; set; }
+
+        public ICollection<Order>? Orders { get; set; }
     }
 }
