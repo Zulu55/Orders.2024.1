@@ -44,13 +44,14 @@ namespace Orders.Backend.Repositories.Implementations
                 queryable = queryable.Where(s => s.User!.Email == email);
             }
 
+            var orders = await queryable
+                    .OrderByDescending(x => x.Date)
+                    .Paginate(pagination)
+                    .ToListAsync();
             return new ActionResponse<IEnumerable<Order>>
             {
                 WasSuccess = true,
-                Result = await queryable
-                    .OrderByDescending(x => x.Date)
-                    .Paginate(pagination)
-                    .ToListAsync()
+                Result = orders
             };
         }
 
