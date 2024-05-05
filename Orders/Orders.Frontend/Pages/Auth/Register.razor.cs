@@ -21,6 +21,7 @@ namespace Orders.Frontend.Pages.Auth
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
         [Inject] private ILoginService LoginService { get; set; } = null!;
+        [Parameter, SupplyParameterFromQuery] public bool IsAdmin { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -95,6 +96,12 @@ namespace Orders.Frontend.Pages.Auth
         {
             userDTO.UserName = userDTO.Email;
             userDTO.UserType = UserType.User;
+
+            if (IsAdmin)
+            {
+                userDTO.UserType = UserType.Admin;
+            }
+
             loading = true;
             var responseHttp = await Repository.PostAsync<UserDTO>("/api/accounts/CreateUser", userDTO);
             loading = false;
