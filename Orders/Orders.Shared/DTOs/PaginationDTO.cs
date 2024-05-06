@@ -9,5 +9,7 @@
         public int RecordsNumber { get; set; } = 10;
 
         public string? Filter { get; set; }
+
+        public string? CategoryFilter { get; set; }
     }
 }
