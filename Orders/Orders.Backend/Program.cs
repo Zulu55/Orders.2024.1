@@ -60,6 +60,7 @@ builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
 builder.Services.AddScoped<IOrdersHelper, OrdersHelper>();
 builder.Services.AddScoped<ISmtpClient, SmtpClientWrapper>();
+builder.Services.AddScoped<IBlobContainerClientFactory, BlobContainerClientFactory>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));

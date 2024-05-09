@@ -1,33 +1,34 @@
-﻿using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
+﻿using Azure.Storage.Blobs.Models;
 
 namespace Orders.Backend.Helpers
 {
     public class FileStorage : IFileStorage
     {
         private readonly string _connectionString;
+        private readonly IBlobContainerClientFactory _blobContainerClientFactory;
 
-        public FileStorage(IConfiguration configuration)
+        public FileStorage(IConfiguration configuration, IBlobContainerClientFactory blobContainerClientFactory)
         {
-            _connectionString = configuration.GetConnectionString("AzureStorage")!;
+            _connectionString = configuration["ConnectionStrings:AzureStorage"] ?? throw new InvalidOperationException("Connection string 'AzureStorage' not found.");
+            _blobContainerClientFactory = blobContainerClientFactory;
         }
 
         public async Task RemoveFileAsync(string path, string containerName)
         {
-            var client = new BlobContainerClient(_connectionString, containerName);
+            var client = _blobContainerClientFactory.CreateBlobContainerClient(_connectionString, containerName);
             await client.CreateIfNotExistsAsync();
             var fileName = Path.GetFileName(path);
-            var blob = client.GetBlobClient(fileName);
+            var blob = await client.GetBlobClientAsync(fileName);
             await blob.DeleteIfExistsAsync();
         }
 
-        public async Task<string> SaveFileAsync(byte[] content, string extention, string containerName)
+        public async Task<string> SaveFileAsync(byte[] content, string extension, string containerName)
         {
-            var client = new BlobContainerClient(_connectionString, containerName);
+            var client = _blobContainerClientFactory.CreateBlobContainerClient(_connectionString, containerName);
             await client.CreateIfNotExistsAsync();
-            client.SetAccessPolicy(PublicAccessType.Blob);
-            var fileName = $"{Guid.NewGuid()}{extention}";
-            var blob = client.GetBlobClient(fileName);
+            await client.SetAccessPolicyAsync(PublicAccessType.Blob);
+            var fileName = $"{Guid.NewGuid()}{extension}";
+            var blob = await client.GetBlobClientAsync(fileName);
 
             using (var ms = new MemoryStream(content))
             {
