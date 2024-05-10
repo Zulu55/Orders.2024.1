@@ -13,6 +13,6 @@
     </Authorized>
     <NotAuthorized>
         <a href="register" class="nav-link btn btn-link">Registro</a>
-        <a href="Login" class="nav-link btn btn-link">Iniciar Sesión</a>
+        <a @onclick=@(() => ShowModal()) class="nav-link btn btn-link">Iniciar Sesión</a>
     </NotAuthorized>
 </AuthorizeView>

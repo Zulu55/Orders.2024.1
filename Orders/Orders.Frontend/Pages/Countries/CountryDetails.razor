@@ -10,7 +10,7 @@ else
         <div class="card-header">
             <span>
                 <i class="bi bi-globe-americas" /> @country.Name
-                <a class="btn btn-sm btn-primary float-end mx-1" href="/states/create/@country.Id"><i class="bi bi-plus-square" />  Adicionar Estado/Departamento</a>
+                <a class="btn btn-sm btn-primary float-end mx-1" @onclick=@(() => ShowModalAsync())><i class="bi bi-plus-square" />  Adicionar Estado/Departamento</a>
                 <a class="btn btn-sm btn-success float-end" href="/countries"><i class="bi bi-arrow-left" />  Regresar</a>
             </span>
         </div>
@@ -39,7 +39,7 @@ else
                                     <td><a href="/states/details/@state.Id">@state.Name</a></td>
                                     <td>@state.CitiesNumber</td>
                                     <td>
-                                        <a class="btn btn-warning btn-sm" href="/states/edit/@state.Id"><i class="bi bi-pencil" /> Editar</a>
+                                        <a class="btn btn-warning btn-sm" @onclick=@(() => ShowModalAsync(state.Id, true))><i class="bi bi-pencil" /> Editar</a>
                                         <button class="btn btn-danger btn-sm" @onclick=@(() => DeleteAsync(state))><i class="bi bi-trash" /> Borrar</button>
                                     </td>
                                 </tr>
