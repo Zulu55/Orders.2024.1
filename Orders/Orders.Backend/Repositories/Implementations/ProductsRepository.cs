@@ -19,6 +19,75 @@ namespace Orders.Backend.Repositories.Implementations
             _fileStorage = fileStorage;
         }
 
+        public async Task<ActionResponse<ImageDTO>> AddImageAsync(ImageDTO imageDTO)
+        {
+            var product = await _context.Products
+                .Include(x => x.ProductImages)
+                .FirstOrDefaultAsync(x => x.Id == imageDTO.ProductId);
+            if (product == null)
+            {
+                return new ActionResponse<ImageDTO>
+                {
+                    WasSuccess = false,
+                    Message = "Producto no existe"
+                };
+            }
+
+            for (int i = 0; i < imageDTO.Images.Count; i++)
+            {
+                if (!imageDTO.Images[i].StartsWith("https://"))
+                {
+                    var photoProduct = Convert.FromBase64String(imageDTO.Images[i]);
+                    imageDTO.Images[i] = await _fileStorage.SaveFileAsync(photoProduct, ".jpg", "products");
+                    product.ProductImages!.Add(new ProductImage { Image = imageDTO.Images[i] });
+                }
+            }
+
+            _context.Update(product);
+            await _context.SaveChangesAsync();
+            return new ActionResponse<ImageDTO>
+            {
+                WasSuccess = true,
+                Result = imageDTO
+            };
+        }
+
+        public async Task<ActionResponse<ImageDTO>> RemoveLastImageAsync(ImageDTO imageDTO)
+        {
+            var product = await _context.Products
+                .Include(x => x.ProductImages)
+                .FirstOrDefaultAsync(x => x.Id == imageDTO.ProductId);
+            if (product == null)
+            {
+                return new ActionResponse<ImageDTO>
+                {
+                    WasSuccess = false,
+                    Message = "Producto no existe"
+                };
+            }
+
+            if (product.ProductImages is null || product.ProductImages.Count == 0)
+            {
+                return new ActionResponse<ImageDTO>
+                {
+                    WasSuccess = true,
+                    Result = imageDTO
+                };
+            }
+
+            var lastImage = product.ProductImages.LastOrDefault();
+            await _fileStorage.RemoveFileAsync(lastImage!.Image, "products");
+            _context.ProductImages.Remove(lastImage);
+
+            await _context.SaveChangesAsync();
+            imageDTO.Images = product.ProductImages.Select(x => x.Image).ToList();
+            return new ActionResponse<ImageDTO>
+            {
+                WasSuccess = true,
+                Result = imageDTO
+            };
+        }
+
         public override async Task<ActionResponse<IEnumerable<Product>>> GetAsync(PaginationDTO pagination)
         {
             var queryable = _context.Products
