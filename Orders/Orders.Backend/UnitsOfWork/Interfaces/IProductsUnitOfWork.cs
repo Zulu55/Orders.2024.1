@@ -6,6 +6,8 @@ namespace Orders.Backend.UnitsOfWork.Interfaces
 {
     public interface IProductsUnitOfWork
     {
+        Task<ActionResponse<Product>> DeleteAsync(int id);
+
         Task<ActionResponse<ImageDTO>> AddImageAsync(ImageDTO imageDTO);
 
         Task<ActionResponse<ImageDTO>> RemoveLastImageAsync(ImageDTO imageDTO);
