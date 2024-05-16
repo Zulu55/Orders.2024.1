@@ -16,10 +16,26 @@ namespace Orders.Frontend.Pages
         [Inject] private NavigationManager NavigationManager { get; set; } = null!;
         [Inject] private SweetAlertService SweetAlertService { get; set; } = null!;
         [Inject] private IRepository Repository { get; set; } = null!;
+        [Parameter, SupplyParameterFromQuery] public int RecordsNumber { get; set; } = 8;
 
         protected override async Task OnInitializedAsync()
         {
             await LoadAsync();
+        }
+
+        private async Task SelectedRecordsNumberAsync(int recordsnumber)
+        {
+            RecordsNumber = recordsnumber;
+            int page = 1;
+            await LoadAsync(page);
+            await SelectedPageAsync(page);
+        }
+
+        private async Task FilterCallBack(string filter)
+        {
+            Filter = filter;
+            await ApplyFilterAsync();
+            StateHasChanged();
         }
 
         private async Task SelectedPageAsync(int page)
@@ -42,9 +58,18 @@ namespace Orders.Frontend.Pages
             }
         }
 
+        private void ValidateRecordsNumber(int recordsnumber)
+        {
+            if (recordsnumber == 0)
+            {
+                RecordsNumber = 8;
+            }
+        }
+
         private async Task<bool> LoadListAsync(int page)
         {
-            var url = $"api/products?page={page}&RecordsNumber=8";
+            ValidateRecordsNumber(RecordsNumber);
+            var url = $"api/products?page={page}&RecordsNumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"&filter={Filter}";
@@ -63,7 +88,8 @@ namespace Orders.Frontend.Pages
 
         private async Task LoadPagesAsync()
         {
-            var url = $"api/products/totalPages/?RecordsNumber=8";
+            ValidateRecordsNumber(RecordsNumber);
+            var url = $"api/products/totalPages/?RecordsNumber={RecordsNumber}";
             if (!string.IsNullOrEmpty(Filter))
             {
                 url += $"&filter={Filter}";
@@ -77,12 +103,6 @@ namespace Orders.Frontend.Pages
                 return;
             }
             totalPages = response.Response;
-        }
-
-        private async Task CleanFilterAsync()
-        {
-            Filter = string.Empty;
-            await ApplyFilterAsync();
         }
 
         private async Task ApplyFilterAsync()
