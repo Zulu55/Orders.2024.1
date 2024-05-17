@@ -1,0 +1,78 @@
+﻿@page "/products/details/{ProductId:int}"
+
+@if (loading)
+{
+    <Loading />
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <span>
+                <i class="bi bi-star" /> @product!.Name
+                <a class="btn btn-sm btn-success float-end" href="/"><i class="bi bi-arrow-left" /> Regresar</a>
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label>Nombre:</label>
+                        <div>
+                            <b>@product.Name</b>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Descripción:</label>
+                        <div>
+                            <b>@product.Description</b>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Precio:</label>
+                        <div>
+                            <b>@($"{product.Price:C2}")</b>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Inventario:</label>
+                        <div>
+                            <b>@($"{product.Stock:N2}")</b>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Categorías:</label>
+                        <div>
+                            @foreach (var category in categories!)
+                            {
+                                <div class="mx-2">
+                                    <b>@category</b>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <EditForm Model="TemporalOrderDTO" OnValidSubmit="AddToCartAsync">
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label>Cantidad:</label>
+                            <div>
+                                <InputNumber class="form-control" @bind-Value="@TemporalOrderDTO.Quantity" />
+                                <ValidationMessage For="@(() => TemporalOrderDTO.Quantity)" />
+                            </div>
+                            <label>Comentarios:</label>
+                            <div>
+                                <InputText class="form-control" @bind-Value="@TemporalOrderDTO.Remarks" />
+                                <ValidationMessage For="@(() => TemporalOrderDTO.Remarks)" />
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit"><i class="bi bi-cart-plus" /> Agregar Al Carro de Compras</button>
+                    </EditForm>
+
+                </div>
+            </div>
+            <CarouselView Images="images" />
+        </div>
+    </div>
+}

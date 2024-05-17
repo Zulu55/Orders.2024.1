@@ -6,7 +6,17 @@
 }
 else
 {
-    <Filter PlaceHolder="Buscar producto..." Callback=@FilterCallBack />
+    <div class="d-flex align-items-center justify-content-between">
+        <Filter PlaceHolder="Buscar producto..." Callback=@FilterCallBack />
+        <AuthorizeView>
+            <Authorized>
+                @if (counter > 0)
+                {
+                    <a href="/Cart/ShowCart" class="btn btn-primary"><i class="bi bi-cart-fill" /> Ver Carro de Compras (@counter)</a>
+                }
+            </Authorized>
+        </AuthorizeView>
+    </div>
     <Pagination CurrentPage="currentPage"
                 TotalPages="totalPages"
                 SelectedPage="SelectedPageAsync"

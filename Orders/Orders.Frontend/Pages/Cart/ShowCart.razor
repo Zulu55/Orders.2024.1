@@ -1,0 +1,87 @@
+﻿@page "/Cart/ShowCart"
+
+@if (temporalOrders is null)
+{
+    <Loading />
+}
+else
+{
+    <GenericList MyList="temporalOrders">
+        <Body>
+            <div class="card">
+                <div class="card-header">
+                    <span>
+                        <i class="bi bi-cart" /> Carro de Compras
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-4">
+                            <h3>Cantidad productos: <strong>@($"{sumQuantity:N2}")</strong></h3>
+                        </div>
+                        <div class="col-4">
+                            <h3>Valor: <strong>@($"{sumValue:C2}")</strong></h3>
+                        </div>
+                    </div>
+                    <EditForm Model="OrderDTO" OnValidSubmit="ConfirmOrderAsync">
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <label>Comentarios:</label>
+                            <div>
+                                <InputText class="form-control" @bind-Value="@OrderDTO.Remarks" />
+                                <ValidationMessage For="@(() => OrderDTO.Remarks)" />
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mb-3" type="submit"><i class="bi bi-check" /> Confirmar Pedido</button>
+                    </EditForm>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Valor</th>
+                                <th>Comentarios</th>
+                                <th>Imagén</th>
+                                <th style="width:168px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var temporalOrder in temporalOrders)
+                            {
+                                <tr>
+                                    <td>
+                                        @temporalOrder.Product!.Name
+                                    </td>
+                                    <td>
+                                        @temporalOrder.Product!.Description
+                                    </td>
+                                    <td>
+                                        @($"{temporalOrder.Quantity:N2}")
+                                    </td>
+                                    <td>
+                                        @($"{temporalOrder.Product!.Price:C2}")
+                                    </td>
+                                    <td>
+                                        @($"{temporalOrder.Value:C2}")
+                                    </td>
+                                    <td>
+                                        @temporalOrder.Remarks
+                                    </td>
+                                    <td>
+                                        <img src="@temporalOrder.Product!.MainImage" style="width:100px;" />
+                                    </td>
+                                    <td>
+                                        <a href="/Cart/ModifyTemporalOrder/@temporalOrder.Id" class="btn btn-warning btn-sm"><i class="bi bi-pencil" /> Editar</a>
+                                        <button class="btn btn-danger btn-sm" @onclick=@(() => Delete(temporalOrder.Id))><i class="bi bi-trash" /> Borrar</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </Body>
+    </GenericList>
+}
