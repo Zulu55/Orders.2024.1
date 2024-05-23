@@ -58,6 +58,7 @@ builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnec
 builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
 builder.Services.AddScoped<IMailHelper, MailHelper>();
+builder.Services.AddScoped<IOrdersHelper, OrdersHelper>();
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWork<>));
@@ -65,6 +66,7 @@ builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericUnitOfWor
 builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 builder.Services.AddScoped<ICitiesRepository, CitiesRepository>();
 builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
+builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<IStatesRepository, StatesRepository>();
 builder.Services.AddScoped<ITemporalOrdersRepository, TemporalOrdersRepository>();
@@ -73,6 +75,7 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<ICategoriesUnitOfWork, CategoriesUnitOfWork>();
 builder.Services.AddScoped<ICitiesUnitOfWork, CitiesUnitOfWork>();
 builder.Services.AddScoped<ICountriesUnitOfWork, CountriesUnitOfWork>();
+builder.Services.AddScoped<IOrdersUnitOfWork, OrdersUnitOfWork>();
 builder.Services.AddScoped<IProductsUnitOfWork, ProductsUnitOfWork>();
 builder.Services.AddScoped<IStatesUnitOfWork, StatesUnitOfWork>();
 builder.Services.AddScoped<ITemporalOrdersUnitOfWork, TemporalOrdersUnitOfWork>();
