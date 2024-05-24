@@ -3,6 +3,7 @@ using Orders.Backend.Repositories.Interfaces;
 using Orders.Backend.UnitsOfWork.Interfaces;
 using Orders.Shared.DTOs;
 using Orders.Shared.Entities;
+using Orders.Shared.Responses;
 
 namespace Orders.Backend.UnitsOfWork.Implementations
 {
@@ -14,6 +15,10 @@ namespace Orders.Backend.UnitsOfWork.Implementations
         {
             _usersRepository = usersRepository;
         }
+
+        public async Task<ActionResponse<IEnumerable<User>>> GetAsync(PaginationDTO pagination) => await _usersRepository.GetAsync(pagination);
+
+        public async Task<ActionResponse<int>> GetTotalPagesAsync(PaginationDTO pagination) => await _usersRepository.GetTotalPagesAsync(pagination);
 
         public async Task<string> GeneratePasswordResetTokenAsync(User user) => await _usersRepository.GeneratePasswordResetTokenAsync(user);
 
