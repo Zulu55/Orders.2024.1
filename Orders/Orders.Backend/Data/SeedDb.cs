@@ -1,4 +1,5 @@
 ﻿
+using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Orders.Backend.Helpers;
 using Orders.Backend.UnitsOfWork.Interfaces;
@@ -23,7 +24,7 @@ namespace Orders.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            //await CheckCountriesFullAsync();
+            await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCatregoriesAsync();
             await CheckRolesAsync();
@@ -105,7 +106,15 @@ namespace Orders.Backend.Data
 
             foreach (string? image in images)
             {
-                var filePath = $"{Environment.CurrentDirectory}\\Images\\products\\{image}";
+                string filePath;
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    filePath = $"{Environment.CurrentDirectory}\\Images\\products\\{image}";
+                }
+                else
+                {
+                    filePath = $"{Environment.CurrentDirectory}/Images/products/{image}";
+                }
                 var fileBytes = File.ReadAllBytes(filePath);
                 var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "products");
                 prodcut.ProductImages.Add(new ProductImage { Image = imagePath });
@@ -137,7 +146,16 @@ namespace Orders.Backend.Data
                 var city = await _context.Cities.FirstOrDefaultAsync(x => x.Name == "Medellín");
                 city ??= await _context.Cities.FirstOrDefaultAsync();
 
-                var filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
+                string filePath;
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    filePath = $"{Environment.CurrentDirectory}\\Images\\users\\{image}";
+                }
+                else
+                {
+                    filePath = $"{Environment.CurrentDirectory}/Images/users/{image}";
+                }
+
                 var fileBytes = File.ReadAllBytes(filePath);
                 var imagePath = await _fileStorage.SaveFileAsync(fileBytes, "jpg", "users");
 
