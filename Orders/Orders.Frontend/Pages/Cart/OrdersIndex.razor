@@ -1,0 +1,72 @@
+﻿@page "/orders"
+
+@if (Orders is null)
+{
+    <Loading />
+}
+else
+{
+    <GenericList MyList="Orders">
+        <Body>
+            <div class="card">
+                <div class="card-header">
+                    <span>
+                        <i class="bi bi-currency-dollar" /> Pedidos
+                    </span>
+                </div>
+                <div class="card-body">
+                    <Pagination CurrentPage="currentPage"
+                                TotalPages="totalPages"
+                                SelectedPage="SelectedPageAsync"
+                                RecordsNumber="SelectedRecordsNumberAsync" />
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Usuario</th>
+                                <th>Comentario</th>
+                                <th>Estado</th>
+                                <th>Líneas</th>
+                                <th>Cantidad</th>
+                                <th>Valor</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var sale in Orders)
+                            {
+                                <tr>
+                                    <td>
+                                        @($"{sale.Date:yyyy/MM/dd hh:mm tt}")
+                                    </td>
+                                    <td>
+                                        @sale.User!.FullName
+                                    </td>
+                                    <td>
+                                        @sale.Remarks
+                                    </td>
+                                    <td>
+                                        @EnumHelper.GetEnumDescription(sale.OrderStatus)
+                                    </td>
+                                    <td>
+                                        @sale.Lines
+                                    </td>
+                                    <td>
+                                        @($"{sale.Quantity:N2}")
+                                    </td>
+                                    <td>
+                                        @($"{sale.Value:C2}")
+                                    </td>
+                                    <td>
+                                        <a href="/cart/orderDetails/@sale.Id" class="btn btn-info btn-sm"><i class="bi bi-info-circle" /> Detalles</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </Body>
+    </GenericList>
+}
