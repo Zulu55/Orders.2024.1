@@ -13,7 +13,10 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7154/") });
+var uriBack = "https://ordersbackend.azurewebsites.net/";
+//var uriBack = "https://localhost:7154/";
+
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(uriBack) });
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddSweetAlert2();
 builder.Services.AddAuthorizationCore();

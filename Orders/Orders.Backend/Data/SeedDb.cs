@@ -1,5 +1,4 @@
-﻿
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Orders.Backend.Helpers;
 using Orders.Backend.UnitsOfWork.Interfaces;
@@ -24,7 +23,7 @@ namespace Orders.Backend.Data
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
-            await CheckCountriesFullAsync();
+            //await CheckCountriesFullAsync();
             await CheckCountriesAsync();
             await CheckCatregoriesAsync();
             await CheckRolesAsync();
