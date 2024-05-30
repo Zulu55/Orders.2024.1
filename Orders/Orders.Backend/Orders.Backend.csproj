@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Data\CountriesStatesCities.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="MailKit" Version="4.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
@@ -30,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Data\CountriesStatesCities.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Images\products\adidas_barracuda.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
